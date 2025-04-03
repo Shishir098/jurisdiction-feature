@@ -1,0 +1,41 @@
+import React, { useEffect, useState } from 'react';
+
+const jurisdictions = [
+{ code: 'us', name: '🇺🇸 United States' },
+{ code: 'uk', name: '🇬🇧 United Kingdom' },
+{ code: 'ca', name: '🇨🇦 Canada' },
+{ code: 'au', name: '🇦🇺 Australia' },
+{ code: 'eu', name: '🇪🇺 European Union' },
+{ code: 'in', name: '🇮🇳 India' },
+// Add more jurisdictions as needed
+];
+
+const JurisdictionDropdown = ({ selected, onChange }) => {
+const [selectedJurisdiction, setSelectedJurisdiction] = useState('us');
+
+useEffect(() => {
+const saved = localStorage.getItem('jurisdiction') || 'us';
+setSelectedJurisdiction(saved);
+onChange(saved);
+}, []);
+
+const handleChange = (event) => {
+const newJurisdiction = event.target.value;
+setSelectedJurisdiction(newJurisdiction);
+onChange(newJurisdiction);
+localStorage.setItem('jurisdiction', newJurisdiction);
+};
+
+return (
+<div style={{ position: 'absolute', top: 10, right: 20 }}>
+<label style={{ marginRight: 8 }}>Jurisdiction:</label>
+<select value={selectedJurisdiction} onChange={handleChange}>
+{jurisdictions.map((j) => (
+<option key={j.code} value={j.code}>
+{j.name}
+</option>
+))}
+</select>
+</div>
+);
+};
